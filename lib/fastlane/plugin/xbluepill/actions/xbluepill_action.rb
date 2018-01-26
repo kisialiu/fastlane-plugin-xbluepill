@@ -6,6 +6,7 @@ module Fastlane
   module Actions
     class XbluepillAction < Action
       def self.run(params)
+        puts(params)
         UI.message("The xbluepill plugin is working!")
 
         sh("rm -rf ./xbluepill")
