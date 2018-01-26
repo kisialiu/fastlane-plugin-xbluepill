@@ -8,7 +8,17 @@ module Fastlane
       def self.run(params)
         UI.message("The xbluepill plugin is working!")
 
-        perform_scan(params)
+        sh("rm -rf ./xbluepill")
+        sh("rm -rf ./xbluepill_output")
+
+        scan_options = {}
+        scan_options[:workspace] = params[:workspace]
+        scan_options[:scheme] = params[:scheme]
+        scan_options[:build_for_testing] = true
+        scan_options[:derived_data_path] = "./xbluepill"
+        scan_options[:buildlog_path] = "./xbluepill/logs/"
+        config = FastlaneCore::Configuration.create(Fastlane::Actions::ScanAction.available_options, scan_options)
+        Fastlane::Actions::ScanAction.run(config)
 
         xctestrun_path = Dir.glob("./xbluepill/Build/Products/*.xctestrun")[0].to_s
         app = Dir.glob("./xbluepill/Build/Products/Debug-*/*.app")[0].to_s
@@ -55,20 +65,6 @@ module Fastlane
 
         reset = params[:reset_simulators].to_s.empty? ? false : params[:reset_simulators]
         sh("xcrun simctl shutdown all ; export SNAPSHOT_FORCE_DELETE=true ; fastlane snapshot reset_simulators --force") if reset
-      end
-
-      def self.perform_scan(params)
-        sh("rm -rf ./xbluepill")
-        sh("rm -rf ./xbluepill_output")
-
-        scan_options = {}
-        scan_options[:workspace] = params[:workspace]
-        scan_options[:scheme] = params[:scheme]
-        scan_options[:build_for_testing] = true
-        scan_options[:derived_data_path] = "./xbluepill"
-        scan_options[:buildlog_path] = "./xbluepill/logs/"
-        config = FastlaneCore::Configuration.create(Fastlane::Actions::ScanAction.available_options, scan_options)
-        Fastlane::Actions::ScanAction.run(config)
       end
 
       def self.add_required_param(cmd, param_name, param_value)
