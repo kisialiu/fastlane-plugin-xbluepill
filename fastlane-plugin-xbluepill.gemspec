@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = 'uladzimir_kisialiou@epam.com'
 
   spec.summary       = 'It is a fastlane plugin that allows to use bluepill (linkedin library) as a fastlane command'
-  # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/fastlane-plugin-xbluepill"
+  spec.homepage      = "https://github.com/kisialiu/fastlane-plugin-xbluepill"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)
