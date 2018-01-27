@@ -12,9 +12,53 @@ fastlane add_plugin xbluepill
 
 ## About xbluepill
 
-It is a fastlane plugin that allows to use bluepill (linkedin library) as a fastlane command
+It is a fastlane plugin that allows to use bluepill (linkedin library) as a fastlane command. It support latest XCode 9.2. There are some differences from other plugins:
+- Supports XCode 9.2;
+- No need to build your project before using the plugin. Builds you project by itself and put xctestrun file automatically;
+- Can reset all simulators if needed (removes all current simulators and recreates default from scratch);
 
-**Note to author:** Add a more detailed description about this plugin here. If your plugin contains multiple actions, make sure to mention them here.
+Supported options are almost the same as in [Bluepill](https://github.com/linkedin/bluepill). But there are some differences since plugin builds a project by itself:
+
+
+|   Config Arguments     | Command Line Arguments | Explanation                                                                        | Required | Default value    |
+|:----------------------:|:----------------------:|------------------------------------------------------------------------------------|:--------:|:----------------:|
+|          `app`         |           -a           | The path to the host application to execute (your .app)                            |     N    | n/a              |
+|    `workspace`    |                        | The path to the `.xworkspace` of your project.  |     Y    | n/a              |
+|    `scheme`    |                        | Your test scheme.  |     Y    | n/a              |
+|    `reset_simulators`    |                        | Delete and re-create all iOS and tvOS simulators.  |     N    | false              |
+|      `output-dir`      |           -o           | Directory where to put output log files (bluepill only)                            |     Y    | n/a              |
+|         config         |           -c           | Read options from the specified configuration file instead of the command line     |     N    | n/a              |
+|         device         |           -d           | On which device to run the app.                                                    |     N    | iPhone 6         |
+|         exclude        |           -x           | Exclude a testcase in the set of tests to run  (takes priority over `include`).    |     N    | empty            |
+|        headless        |           -H           | Run in headless mode (no GUI).                                                     |     N    | off              |
+|        xcode-path      |           -X           | Path to xcode.                                                                     |     N    | xcode-select -p  |
+|         include        |           -i           | Include a testcase in the set of tests to run (unless specified in `exclude`).     |     N    | all tests        |
+|       json-output      |           -J           | Print test timing information in JSON format.                                      |     N    | off              |
+|      junit-output      |           -j           | Print results in JUnit format.                                                     |     N    | true             |
+|       list-tests       |           -l           | Only list tests in bundle                                                          |     N    | false            |
+|        num-sims        |           -n           | Number of simulators to run in parallel. (bluepill only)                           |     N    | 4                |
+|      plain-output      |           -p           | Print results in plain text.                                                       |     N    | true             |
+|      printf-config     |           -P           | Print a configuration file suitable for passing back using the `-c` option.        |     N    | n/a              |
+|      error-retries     |           -R           | Number of times to recover from simulator/app crashing/hanging and continue running|     N    | 5                |
+|    failure-tolerance   |           -f           | Number of times to retry on test failures                                          |     N    | 0                |
+|    only-retry-failed   |           -F           | When `failure-tolerance` > 0, only retry tests that failed                         |     N    | false            |
+|         runtime        |           -r           | What runtime to use.                                                               |     N    | iOS 11.1         |
+|      stuck-timeout     |           -S           | Timeout in seconds for a test that seems stuck (no output).                        |     N    | 300s             |
+|      test-timeout      |           -T           | Timeout in seconds for a test that is producing output.                            |     N    | 300s             |
+|    test-bundle-path    |           -t           | The path to the test bundle to execute (single .xctest).                           |     N    | n/a              |
+| additional-unit-xctests|           n/a          | Additional XCTest bundles that is not Plugin folder                                |     N    | n/a              |
+|  additional-ui-xctests |           n/a          | Additional XCTUITest bundles that is not Plugin folder                             |     N    | n/a              |
+|      repeat-count      |           -C           | Number of times we'll run the entire test suite (used for load testing).           |     N    | 1                |
+|        no-split        |           -N           | Test bundles you don't want to be packed into different groups to run in parallel. |     N    | n/a              |
+|         quiet          |           -q           | Turn off all output except fatal errors.                                           |     N    | YES              |
+|    reuse-simulator     |           n/a          | Enable reusing simulators between test bundles                                     |     N    | NO               |
+|       diagnostics      |           n/a          | Enable collection of diagnostics in outputDir in case of test failures             |     N    | NO               |
+|          help          |           -h           | Help.                                                                              |     N    | n/a              |
+|     runner-app-path    |           -u           | The test runner for UI tests.                                                      |     N    | n/a              |
+| screenshots-directory  |           n/a          | Directory where simulator screenshots for failed ui tests will be stored           |     N    | n/a              |
+|       video-paths      |           -V           | A list of videos that will be saved in the simulators                              |     N    | n/a              |
+|       image-paths      |           -I           | A list of images that will be saved in the simulators                              |     N    | n/a              |
+
 
 ## Example
 
