@@ -6,20 +6,10 @@ module Fastlane
   module Actions
     class XbluepillAction < Action
       def self.run(params)
-        puts(params)
         UI.message("The xbluepill plugin is working!")
 
-        sh("rm -rf ./xbluepill")
-        sh("rm -rf ./xbluepill_output")
-
-        scan_options = {}
-        scan_options[:workspace] = params[:workspace]
-        scan_options[:scheme] = params[:scheme]
-        scan_options[:build_for_testing] = true
-        scan_options[:derived_data_path] = "./xbluepill"
-        scan_options[:buildlog_path] = "./xbluepill/logs/"
-        config = FastlaneCore::Configuration.create(Fastlane::Actions::ScanAction.available_options, scan_options)
-        Fastlane::Actions::ScanAction.run(config)
+        perform_before_build_actions
+        perform_scan(params)
 
         xctestrun_path = Dir.glob("./xbluepill/Build/Products/*.xctestrun")[0].to_s
         app = Dir.glob("./xbluepill/Build/Products/Debug-*/*.app")[0].to_s
@@ -68,6 +58,23 @@ module Fastlane
         sh("xcrun simctl shutdown all ; export SNAPSHOT_FORCE_DELETE=true ; fastlane snapshot reset_simulators --force") if reset
       end
 
+      def self.perform_before_build_actions
+        sh("xcrun simctl shutdown all")
+        sh("rm -rf ./xbluepill")
+        sh("rm -rf ./xbluepill_output")
+      end
+
+      def self.perform_scan(params)
+        scan_options = {}
+        scan_options[:workspace] = params[:workspace].to_s.empty? ? params[:project] : params[:workspace]
+        scan_options[:scheme] = params[:scheme]
+        scan_options[:build_for_testing] = true
+        scan_options[:derived_data_path] = "./xbluepill"
+        scan_options[:buildlog_path] = "./xbluepill/logs/"
+        config = FastlaneCore::Configuration.create(Fastlane::Actions::ScanAction.available_options, scan_options)
+        Fastlane::Actions::ScanAction.run(config)
+      end
+
       def self.add_required_param(cmd, param_name, param_value)
         cmd << " #{param_name} '#{param_value}'"
       end
@@ -100,7 +107,7 @@ module Fastlane
       def self.return_value; end
 
       def self.details
-        "Bluepill is powered by LinkedIn: https://github.com/linkedin/bluepill"
+        "XBluepill is powered by LinkedIn: https://github.com/linkedin/bluepill"
       end
 
       def self.available_options
@@ -114,7 +121,13 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :workspace,
                                        env_name: "XBLUEPILL_workspace".upcase,
                                        description: "XCode workspace",
-                                       optional: false,
+                                       optional: true,
+                                       type: String),
+
+          FastlaneCore::ConfigItem.new(key: :project,
+                                       env_name: "XBLUEPILL_project".upcase,
+                                       description: "XCode project file",
+                                       optional: true,
                                        type: String),
 
           FastlaneCore::ConfigItem.new(key: :reset_simulators,

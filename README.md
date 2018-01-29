@@ -23,9 +23,10 @@ Supported options are almost the same as in [Bluepill](https://github.com/linked
 |   Config Arguments     | Command Line Arguments | Explanation                                                                        | Required | Default value    |
 |:----------------------:|:----------------------:|------------------------------------------------------------------------------------|:--------:|:----------------:|
 |          `app`         |           -a           | The path to the host application to execute (your .app)                            |     N    | n/a              |
-|    `workspace`    |                        | The path to the `.xworkspace` of your project.  |     Y    | n/a              |
-|    `scheme`    |                        | Your test scheme.  |     Y    | n/a              |
-|    `reset_simulators`    |                        | Delete and re-create all iOS and tvOS simulators.  |     N    | false              |
+|    `workspace`         |                        | The path to the `.xworkspace` of your project. NOTE: Required if no `project` option set.                                     |     N    | n/a              |
+|    `project`           |                        | The path to the `.xcodeproj` of your project. NOTE: Required if no `workspace` option set.                                      |     N    | n/a              |
+|    `scheme`            |                        | Your test scheme.                                                                  |     Y    | n/a              |
+|    `reset_simulators`  |                        | Delete and re-create all iOS and tvOS simulators.                                  |     N    | false            |
 |      `output-dir`      |           -o           | Directory where to put output log files (bluepill only)                            |     Y    | n/a              |
 |         config         |           -c           | Read options from the specified configuration file instead of the command line     |     N    | n/a              |
 |         device         |           -d           | On which device to run the app.                                                    |     N    | iPhone 6         |
