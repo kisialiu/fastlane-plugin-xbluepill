@@ -92,7 +92,7 @@ module Fastlane
       end
 
       def self.get_bp_binary
-        File.expand_path('../../../../../../bin/bluepill', __FILE__)
+        File.expand_path('../../../../../bin/bluepill', __FILE__)
       end
 
       def self.description
