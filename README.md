@@ -12,8 +12,8 @@ fastlane add_plugin xbluepill
 
 ## About xbluepill
 
-It is a fastlane plugin that allows to use bluepill (linkedin library) as a fastlane command. It support latest XCode 9.2. There are some differences from other plugins:
-- Supports XCode 9.2;
+It is a fastlane plugin that allows to use bluepill (linkedin library) as a fastlane command. It supports Xcode 10.0. There are some differences from other plugins:
+- Supports Xcode 10;
 - No need to build your project before using the plugin. Builds you project by itself and put xctestrun file automatically;
 - Can reset all simulators if needed (removes all current simulators and recreates default from scratch);
 
